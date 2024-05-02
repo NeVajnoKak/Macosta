@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import ProductCategory, Subcategory,Product, Reviews, ReviewNum, User
 
 
-class ProductCategorySerializer(serializers.Serializer):
+class ProductCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductCategory
@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    subcategory = serializers.SlugRelatedField(slug='subcategory', queryset=Subcategory.objects.all())
+    category = ProductCategorySerializer()
 
     class Meta:
         model = Subcategory
@@ -26,13 +26,27 @@ class SubcategorySerializer(serializers.ModelSerializer):
         read_only_fields = ('category',)
 
 
+class ReviewNumSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ReviewNum
+        fields = ('review_num',)
+        read_only_fields = ('review_num',)
+
+
 class ReviewSerializer(serializers.ModelSerializer):
 
-    user = serializers.SlugRelatedField(slug_field='username', queryset=User.objects.filter())
-    product = serializers.SlugRelatedField(slug_field='username', queryset=Product.objects.all())
-    review_num = serializers.SlugRelatedField(slug_field='username', queryset=ReviewNum.objects.all())
+    user = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    review_num = ReviewNumSerializer
 
     class Meta:
         model = Reviews
-        fields = ('product', 'review_num', 'users', 'review')
-        read_only_fields = ('product', 'review_num', 'users')
+        fields = ('review_num', 'users', 'review')
+        read_only_fields = ('review_num', 'users')
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'price', 'quantity', 'image', 'subcategory')
+        read_only_fields = ('subcategory',)

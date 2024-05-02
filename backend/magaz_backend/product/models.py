@@ -10,10 +10,16 @@ class ProductCategory(models.Model):
         verbose_name = 'Категорию'
         verbose_name_plural = 'Категории'
 
+    def __str__(self):
+        return self.name
+
 
 class Subcategory(models.Model):
     name = models.CharField(max_length=200, unique=True)
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -28,9 +34,15 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
+    def __str__(self):
+        return f'{self.name} {self.description}'
+
 
 class ReviewNum(models.Model):
     review_num = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.review_num
 
 
 class Reviews(models.Model):
@@ -38,5 +50,8 @@ class Reviews(models.Model):
     review_num = models.ForeignKey(to=ReviewNum, on_delete=models.CASCADE)
     users = models.ForeignKey(to=User, on_delete=models.CASCADE)
     review = models.CharField(max_length=600)
+
+    def __str__(self):
+        return self.review
 
 
