@@ -45,20 +45,3 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
-class CategoryCountvViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ProductCategory.objects.count()
-    serializer_class = ProductSerializer
-
-
-class SubCategoryCountvViewSet(viewsets.ReadOnlyModelViewSet):
-    def list(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        categories = ProductCategory.objects.filter(id=pk)
-        queryset = Subcategory.objects.count(category__in=categories)
-        serializer = SubcategorySerializer(queryset, many=True)
-        return Response(serializer.data)
-
-
-class ProductCountViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Product.objects.count()
-    serializer_class = ProductSerializer
