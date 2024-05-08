@@ -1,13 +1,18 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from product.api import ProductCategoryViewSet, SubCategoryViewSet, ProductViewSet
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'api/category', ProductCategoryViewSet)
+router.register(r'api/subcategory', SubCategoryViewSet)
+router.register(r'api/product', ProductViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/category', ProductCategoryViewSet.as_view({'get': 'list'})),
-    path('api/category/subcategory/<int:pk>', SubCategoryViewSet.as_view({'get': 'list'})),
-    path('api/category/subcategory/<int:pk>/product', ProductViewSet.as_view({'get': 'list'})),
-    # path('api/subcategory_count/<int:pk>', SubCategoryCountvViewSet.as_view({'get': 'list'})),
-    # path('api/category_count/', ProductViewSet.as_view({'get': 'list'})),
-    # path('api/categirylist/<int:pk>', ProductCategoryViewSet.as_view({'get': 'list'})),
+    path('', include(router.urls)),  # Включаем маршруты из router
+    # path('api/category', ProductCategoryViewSet.as_view({'get': 'list'})),
+    # path('api/category/subcategory/<int:pk>', SubCategoryViewSet.as_view({'get': 'list'})),
+    # path('api/category/subcategory/<int:pk>/product', ProductViewSet.as_view({'get': 'list'})),
+
 ]

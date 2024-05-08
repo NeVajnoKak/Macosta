@@ -8,7 +8,6 @@ class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductCategory
         fields = ('name', 'id')
-        read_only_fields = ('name', 'id')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -21,8 +20,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subcategory
-        fields = ('name', 'id')
-        read_only_fields = ('id',)
+        fields = ('name', 'id', 'category')
 
 
 class ReviewNumSerializer(serializers.ModelSerializer):
@@ -30,7 +28,6 @@ class ReviewNumSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewNum
         fields = ('review_num', 'id')
-        read_only_fields = ('review_num', 'id')
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -41,11 +38,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reviews
         fields = ('review_num', 'users', 'review', 'id')
-        read_only_fields = ('review_num', 'users', 'id')
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('name', 'description', 'price', 'quantity', 'image', 'subcategory', 'id')
-        read_only_fields = ('subcategory', 'id')

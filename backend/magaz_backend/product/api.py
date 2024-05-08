@@ -22,26 +22,49 @@ from .serializers import (ProductCategorySerializer,
 #         return Response({'count': count, 'categories': serializer.data})
 
 
-class ProductCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class ProductCategoryViewSet(viewsets.ModelViewSet):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
 
 
-class SubCategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    def list(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        categories = ProductCategory.objects.filter(id=pk)
-        queryset = Subcategory.objects.filter(category__in=categories)
-        serializer = SubcategorySerializer(queryset, many=True)
-        return Response(serializer.data)
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    queryset = Subcategory.objects.all()
+    serializer_class = SubcategorySerializer
 
 
-class ProductViewSet(viewsets.ReadOnlyModelViewSet):
-    def list(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        subcategories = Subcategory.objects.filter(id=pk)
-        queryset = Product.objects.filter(subcategory__in=subcategories)
-        serializer = ProductSerializer(queryset, many=True)
-        return Response(serializer.data)
+    # def list(self, request, *args, **kwargs):
+    #     pk = kwargs.get('pk')
+    #     categories = ProductCategory.objects.filter(id=pk)
+    #     queryset = Subcategory.objects.filter(category__in=categories)
+    #     serializer = SubcategorySerializer(queryset, many=True)
+    #     return Response(serializer.data)
 
 
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # def list(self, request, *args, **kwargs):
+    #     pk = kwargs.get('pk')
+    #     subcategories = Subcategory.objects.filter(id=pk)
+    #     queryset = Product.objects.filter(subcategory__in=subcategories)
+    #     serializer = ProductSerializer(queryset, many=True)
+    #     return Response(serializer.data)
+
+
+# class CategoryCountvViewSet(viewsets.ModelViewSet):
+#     queryset = ProductCategory.objects.count()
+#     serializer_class = ProductSerializer
+
+
+# class SubCategoryCountvViewSet(viewsets.ModelViewSet):
+#     def list(self, request, *args, **kwargs):
+#         pk = kwargs.get('pk')
+#         categories = ProductCategory.objects.filter(id=pk)
+#         queryset = Subcategory.objects.count(category__in=categories)
+#         serializer = SubcategorySerializer(queryset, many=True)
+#         return Response(serializer.data)
+#
+#
+# class ProductCountViewSet(viewsets.ModelViewSet):
+#     queryset = Product.objects.count()
+#     serializer_class = ProductSerializer
