@@ -30,7 +30,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     # image = models.ImageField(upload_to='products_images')
     subcategory = models.ForeignKey(to=Subcategory, on_delete=models.CASCADE)
-
+    category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
