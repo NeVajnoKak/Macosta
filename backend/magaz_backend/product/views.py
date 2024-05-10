@@ -10,15 +10,22 @@ def search_view(request):
         try:
             data = json.loads(request.body)
             search_data = data.get('searchQuery')
+            search_type = data.get('searchType')
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
 
         if search_data is not None:
             # Выполнение поиска на основе полученного запроса
             # Используем метод filter для поиска объектов Product, у которых поле name содержит search_data
-            products = Product.objects.filter(name__icontains=search_data)
+            # if search_type == "product":
+            #     products = Product.objects.filter(name__icontains=search_data)
 
-            # Преобразование результатов поиска в формат JSON
+            if search_type == "category":
+                products = Product.objects.filter(category_id=search_data)
+
+            elif search_type == "subcategory":
+                products = Product.objects.filter(subcategory_id=search_data)
+
             search_results = [{'id': product.id, 'name': product.name} for product in products]
 
             # Возвращаем результаты поиска в формате JSON
@@ -52,45 +59,45 @@ def searchProduct(request):
         return JsonResponse({'error': 'Метод запроса не поддерживается'}, status=405)
 
 
-@csrf_exempt
-def searchCategory(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            search_data = data.get('searchQuery')
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
-
-        if search_data is not None:
-
-            products = Product.objects.filter(category_id=search_data)
-
-            search_results = [{'id': product.id, 'name': product.name, 'price' : product.price} for product in products]
-
-            return JsonResponse({'searchResults': search_results})
-        else:
-            return JsonResponse({'error': 'Пустой поисковый запрос'}, status=400)
-    else:
-        return JsonResponse({'error': 'Метод запроса не поддерживается'}, status=405)
-
-
-@csrf_exempt
-def searchProductSubCategory(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            search_data = data.get('searchQuery')
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
-
-        if search_data is not None:
-            products = Product.objects.filter(subcategory_id=search_data)
-
-            search_results = [{'id': product.id, 'name': product.name, 'price' : product.price} for product in products]
-
-            return JsonResponse({'searchResults': search_results})
-        else:
-            return JsonResponse({'error': 'Пустой поисковый запрос'}, status=400)
-    else:
-        return JsonResponse({'error': 'Метод запроса не поддерживается'}, status=405)
-
+# @csrf_exempt
+# def searchCategory(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             search_data = data.get('searchQuery')
+#         except json.JSONDecodeError:
+#             return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
+#
+#         if search_data is not None:
+#
+#             products = Product.objects.filter(category_id=search_data)
+#
+#             search_results = [{'id': product.id, 'name': product.name, 'price' : product.price} for product in products]
+#
+#             return JsonResponse({'searchResults': search_results})
+#         else:
+#             return JsonResponse({'error': 'Пустой поисковый запрос'}, status=400)
+#     else:
+#         return JsonResponse({'error': 'Метод запроса не поддерживается'}, status=405)
+#
+#
+# @csrf_exempt
+# def searchProductSubCategory(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             search_data = data.get('searchQuery')
+#         except json.JSONDecodeError:
+#             return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
+#
+#         if search_data is not None:
+#             products = Product.objects.filter(subcategory_id=search_data)
+#
+#             search_results = [{'id': product.id, 'name': product.name, 'price' : product.price} for product in products]
+#
+#             return JsonResponse({'searchResults': search_results})
+#         else:
+#             return JsonResponse({'error': 'Пустой поисковый запрос'}, status=400)
+#     else:
+#         return JsonResponse({'error': 'Метод запроса не поддерживается'}, status=405)
+#
