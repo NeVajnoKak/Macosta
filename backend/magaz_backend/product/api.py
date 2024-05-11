@@ -7,11 +7,7 @@ from .models import (ProductCategory,
                      Subcategory,
                      Product, Reviews,
                      ReviewNum, User)
-from .serializers import (ProductCategorySerializer,
-                          SubcategorySerializer,
-                          UserSerializer,
-                          ReviewSerializer,
-                          ProductSerializer,)
+from .serializers import *
 
 
 # class ProductCategoryViewSet(viewsets.ViewSet):
@@ -50,7 +46,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     #     queryset = Product.objects.filter(subcategory__in=subcategories)
     #     serializer = ProductSerializer(queryset, many=True)
     #     return Response(serializer.data)
-
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
 
 # class CategoryCountvViewSet(viewsets.ModelViewSet):
 #     queryset = ProductCategory.objects.count()

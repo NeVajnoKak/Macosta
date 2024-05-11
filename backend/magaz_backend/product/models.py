@@ -26,8 +26,9 @@ class Subcategory(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
-    price = models.DecimalField(max_digits=15, decimal_places=2)
+    price = models.IntegerField()
     quantity = models.PositiveIntegerField(default=0)
+    rate = models.IntegerField()
     # image = models.ImageField(upload_to='products_images')
     subcategory = models.ForeignKey(to=Subcategory, on_delete=models.CASCADE)
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
@@ -55,4 +56,9 @@ class Reviews(models.Model):
     def __str__(self):
         return self.review
 
-
+class Cart(models.Model):
+    quantity = models.IntegerField()
+    total = models.IntegerField()
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.review
