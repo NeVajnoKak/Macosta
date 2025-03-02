@@ -186,7 +186,7 @@ if (loading) {
               <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
               <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Tax</strong><strong>$0.00</strong></li>
               <li className="d-flex justify-content-between py-3 border-bottom"><strong className="text-muted">Total</strong>
-                <h5 className="font-weight-bold">$400.00</h5>
+                <h5 className="font-weight-bold">${(subtotal).toFixed(2)}</h5>
               </li>
             </ul><Link to={"/"} className="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</Link>
           </div>
